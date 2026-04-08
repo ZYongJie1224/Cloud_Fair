@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.fair.mapper.ProductMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product (name, description, price, stock, image_url, category, status)
+        VALUES (#{name}, #{description}, #{price}, #{stock}, #{imageUrl}, #{category}, #{status})
+    </insert>
+    <delete id="deleteById">
+        DELETE FROM product WHERE id = #{id}
+    </delete>
+    <update id="update">
+        UPDATE product
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="stock != null">stock = #{stock},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <select id="selectById" resultType="com.cloud.fair.entity.Product">
+        SELECT * FROM product WHERE id = #{id}
+    </select>
+    <select id="selectAll" resultType="com.cloud.fair.entity.Product">
+        SELECT * FROM product ORDER BY create_time DESC
+    </select>
+</mapper>

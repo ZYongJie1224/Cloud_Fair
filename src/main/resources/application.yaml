@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cloud_market?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: zyj20031224
+    # HikariCP 连接池配置 (Spring Boot 默认)
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      connection-timeout: 30000
+
+mybatis:
+  # Mapper XML 文件的路径
+  mapper-locations: classpath:mapper/*.xml
+  # 实体类的包路径，配置后在XML中可以直接使用类名而不需要全限定名
+  type-aliases-package: com.cloud.fair.entity
+  configuration:
+    # 开启驼峰命名自动映射 (如数据库 user_name -> 实体类 userName)
+    map-underscore-to-camel-case: true
+    # 打印 SQL 日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+server:
+  port: 8080

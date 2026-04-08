@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.fair.mapper.AgritainmentMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO agritainment (name, description, avg_price, address, image_url, contact_phone, status)
+        VALUES (#{name}, #{description}, #{avgPrice}, #{address}, #{imageUrl}, #{contactPhone}, #{status})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM agritainment WHERE id = #{id}
+    </delete>
+
+    <update id="update">
+        UPDATE agritainment
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="avgPrice != null">avg_price = #{avgPrice},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultType="com.cloud.fair.entity.Agritainment">
+        SELECT * FROM agritainment WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="com.cloud.fair.entity.Agritainment">
+        SELECT * FROM agritainment ORDER BY create_time DESC
+    </select>
+</mapper>

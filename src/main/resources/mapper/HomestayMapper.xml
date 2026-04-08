@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.fair.mapper.HomestayMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO homestay (name, description, price_per_night, address, image_url, contact_phone, status)
+        VALUES (#{name}, #{description}, #{pricePerNight}, #{address}, #{imageUrl}, #{contactPhone}, #{status})
+    </insert>
+    <delete id="deleteById">
+        DELETE FROM homestay WHERE id = #{id}
+    </delete>
+    <update id="update">
+        UPDATE homestay
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="pricePerNight != null">price_per_night = #{pricePerNight},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <select id="selectById" resultType="com.cloud.fair.entity.Homestay">
+        SELECT * FROM homestay WHERE id = #{id}
+    </select>
+    <select id="selectAll" resultType="com.cloud.fair.entity.Homestay">
+        SELECT * FROM homestay ORDER BY create_time DESC
+    </select>
+</mapper>
