@@ -4,6 +4,7 @@ import com.cloud.fair.entity.Product;
 import com.cloud.fair.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +19,20 @@ public class ProductController {
     @GetMapping("/{id}")
     public Product getById(@PathVariable Long id) { return productService.getById(id); }
     @PostMapping("/add")
-    public String add(@RequestBody Product product) { return productService.add(product) ? "添加成功" : "添加失败"; }
+    public String add(@RequestBody Product product) {
+        if (StringUtils.hasText(product.getCustomCode()) && productService.existsByCustomCode(product.getCustomCode())) {
+            return "编号已存在，添加失败";
+        }
+        return productService.add(product) ? "添加成功" : "添加失败";
+    }
     @PutMapping("/update")
-    public String update(@RequestBody Product product) { return productService.update(product) ? "更新成功" : "更新失败"; }
+    public String update(@RequestBody Product product) {
+        if (StringUtils.hasText(product.getCustomCode())
+                && productService.existsByCustomCodeExcludeId(product.getCustomCode(), product.getId())) {
+            return "编号已存在，更新失败";
+        }
+        return productService.update(product) ? "更新成功" : "更新失败";
+    }
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Long id) { return productService.delete(id) ? "删除成功" : "删除失败"; }
     @GetMapping("/front/list")

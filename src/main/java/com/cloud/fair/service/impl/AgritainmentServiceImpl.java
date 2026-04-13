@@ -22,4 +22,15 @@ public class AgritainmentServiceImpl implements AgritainmentService {
     public Agritainment getById(Long id) { return agritainmentMapper.selectById(id); }
     @Override
     public List<Agritainment> getAll() { return agritainmentMapper.selectAll(); }
+    @Override
+    public boolean existsByCustomCode(String customCode) {
+        return agritainmentMapper.selectIdByCustomCode(customCode) != null;
+    }
+    @Override
+    public boolean existsByCustomCodeExcludeId(String customCode, Long id) {
+        if (id == null) {
+            return existsByCustomCode(customCode);
+        }
+        return agritainmentMapper.selectIdByCustomCodeExcludeId(customCode, id) != null;
+    }
 }

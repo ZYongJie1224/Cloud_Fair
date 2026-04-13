@@ -22,4 +22,15 @@ public class ProductServiceImpl implements ProductService {
     public Product getById(Long id) { return productMapper.selectById(id); }
     @Override
     public List<Product> getAll() { return productMapper.selectAll(); }
+    @Override
+    public boolean existsByCustomCode(String customCode) {
+        return productMapper.selectIdByCustomCode(customCode) != null;
+    }
+    @Override
+    public boolean existsByCustomCodeExcludeId(String customCode, Long id) {
+        if (id == null) {
+            return existsByCustomCode(customCode);
+        }
+        return productMapper.selectIdByCustomCodeExcludeId(customCode, id) != null;
+    }
 }

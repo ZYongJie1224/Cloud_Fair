@@ -9,4 +9,6 @@ public interface ProductService {
     boolean update(Product product);
     Product getById(Long id);
     List<Product> getAll();
+    boolean existsByCustomCode(String customCode);
+    boolean existsByCustomCodeExcludeId(String customCode, Long id);
 }

@@ -28,4 +28,10 @@
     <select id="selectAll" resultType="com.cloud.fair.entity.Homestay">
         SELECT * FROM homestay ORDER BY create_time DESC
     </select>
+    <select id="selectIdByCustomCode" resultType="java.lang.Long">
+        SELECT id FROM homestay WHERE custom_code = #{customCode} LIMIT 1
+    </select>
+    <select id="selectIdByCustomCodeExcludeId" resultType="java.lang.Long">
+        SELECT id FROM homestay WHERE custom_code = #{customCode} AND id != #{id} LIMIT 1
+    </select>
 </mapper>
