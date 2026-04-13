@@ -9,4 +9,6 @@ public interface AgritainmentService {
     boolean update(Agritainment agritainment);
     Agritainment getById(Long id);
     List<Agritainment> getAll();
+    boolean existsByCustomCode(String customCode);
+    boolean existsByCustomCodeExcludeId(String customCode, Long id);
 }

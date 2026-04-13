@@ -4,6 +4,7 @@ import com.cloud.fair.entity.Homestay;
 import com.cloud.fair.service.HomestayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +19,20 @@ public class HomestayController {
     @GetMapping("/{id}")
     public Homestay getById(@PathVariable Long id) { return homestayService.getById(id); }
     @PostMapping("/add")
-    public String add(@RequestBody Homestay homestay) { return homestayService.add(homestay) ? "添加成功" : "添加失败"; }
+    public String add(@RequestBody Homestay homestay) {
+        if (StringUtils.hasText(homestay.getCustomCode()) && homestayService.existsByCustomCode(homestay.getCustomCode())) {
+            return "编号已存在，添加失败";
+        }
+        return homestayService.add(homestay) ? "添加成功" : "添加失败";
+    }
     @PutMapping("/update")
-    public String update(@RequestBody Homestay homestay) { return homestayService.update(homestay) ? "更新成功" : "更新失败"; }
+    public String update(@RequestBody Homestay homestay) {
+        if (StringUtils.hasText(homestay.getCustomCode())
+                && homestayService.existsByCustomCodeExcludeId(homestay.getCustomCode(), homestay.getId())) {
+            return "编号已存在，更新失败";
+        }
+        return homestayService.update(homestay) ? "更新成功" : "更新失败";
+    }
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Long id) { return homestayService.delete(id) ? "删除成功" : "删除失败"; }
     @GetMapping("/front/list")

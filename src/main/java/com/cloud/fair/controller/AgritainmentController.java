@@ -4,6 +4,7 @@ import com.cloud.fair.entity.Agritainment;
 import com.cloud.fair.service.AgritainmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +19,20 @@ public class AgritainmentController {
     @GetMapping("/{id}")
     public Agritainment getById(@PathVariable Long id) { return agritainmentService.getById(id); }
     @PostMapping("/add")
-    public String add(@RequestBody Agritainment agritainment) { return agritainmentService.add(agritainment) ? "添加成功" : "添加失败"; }
+    public String add(@RequestBody Agritainment agritainment) {
+        if (StringUtils.hasText(agritainment.getCustomCode()) && agritainmentService.existsByCustomCode(agritainment.getCustomCode())) {
+            return "编号已存在，添加失败";
+        }
+        return agritainmentService.add(agritainment) ? "添加成功" : "添加失败";
+    }
     @PutMapping("/update")
-    public String update(@RequestBody Agritainment agritainment) { return agritainmentService.update(agritainment) ? "更新成功" : "更新失败"; }
+    public String update(@RequestBody Agritainment agritainment) {
+        if (StringUtils.hasText(agritainment.getCustomCode())
+                && agritainmentService.existsByCustomCodeExcludeId(agritainment.getCustomCode(), agritainment.getId())) {
+            return "编号已存在，更新失败";
+        }
+        return agritainmentService.update(agritainment) ? "更新成功" : "更新失败";
+    }
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Long id) { return agritainmentService.delete(id) ? "删除成功" : "删除失败"; }
     @GetMapping("/front/list")

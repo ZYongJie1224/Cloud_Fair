@@ -22,4 +22,15 @@ public class HomestayServiceImpl implements HomestayService {
     public Homestay getById(Long id) { return homestayMapper.selectById(id); }
     @Override
     public List<Homestay> getAll() { return homestayMapper.selectAll(); }
+    @Override
+    public boolean existsByCustomCode(String customCode) {
+        return homestayMapper.selectIdByCustomCode(customCode) != null;
+    }
+    @Override
+    public boolean existsByCustomCodeExcludeId(String customCode, Long id) {
+        if (id == null) {
+            return existsByCustomCode(customCode);
+        }
+        return homestayMapper.selectIdByCustomCodeExcludeId(customCode, id) != null;
+    }
 }

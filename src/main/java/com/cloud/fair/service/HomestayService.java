@@ -9,4 +9,6 @@ public interface HomestayService {
     boolean update(Homestay homestay);
     Homestay getById(Long id);
     List<Homestay> getAll();
+    boolean existsByCustomCode(String customCode);
+    boolean existsByCustomCodeExcludeId(String customCode, Long id);
 }
