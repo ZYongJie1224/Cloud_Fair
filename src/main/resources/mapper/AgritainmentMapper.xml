@@ -3,8 +3,8 @@
 <mapper namespace="com.cloud.fair.mapper.AgritainmentMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO agritainment (name, description, avg_price, address, image_url, contact_phone, status)
-        VALUES (#{name}, #{description}, #{avgPrice}, #{address}, #{imageUrl}, #{contactPhone}, #{status})
+        INSERT INTO agritainment (custom_code, name, description, avg_price, address, image_url, contact_phone, status)
+        VALUES (#{customCode}, #{name}, #{description}, #{avgPrice}, #{address}, #{imageUrl}, #{contactPhone}, #{status})
     </insert>
 
     <delete id="deleteById">
@@ -14,6 +14,7 @@
     <update id="update">
         UPDATE agritainment
         <set>
+            <if test="customCode != null">custom_code = #{customCode},</if>
             <if test="name != null">name = #{name},</if>
             <if test="description != null">description = #{description},</if>
             <if test="avgPrice != null">avg_price = #{avgPrice},</if>
